@@ -406,7 +406,7 @@ class ViewController: UIViewController {
                             print("The face is smiling.")
                             print("Width while smiling: \(mouthWidth)")
                             self.smileImageView.isHidden = false  // Make smiling image view visible
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                 self.smileImageView.isHidden = true // Hide the image after 0.05 seconds
                             }
                         } else {
