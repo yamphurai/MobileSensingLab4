@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "93A7D26F-413E-4DD7-A385-691AEF420E5A"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A26B0627-E9A6-41E9-919B-AE66CCCE1C58"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VisionFaceTrack/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
+            landmarkName = "landmarksCompletionHandler(request:error:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A26B0627-E9A6-41E9-919B-AE66CCCE1C58 - a5bea4beb36a1f89"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VisionFaceTrack.ViewController.landmarksCompletionHandler(request: __C.VNRequest, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "VisionFaceTrack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reshmashrestha/Desktop/CS5323%20Mobile%20Sensing/Chapter%204%20Vision%20Processing/CoreImage&amp;Vision_Lab4/AppleVision-4_vision_full_overlay/VisionFaceTrack/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "385"
+                  endingLineNumber = "385">
+               </Location>
+               <Location
+                  uuid = "A26B0627-E9A6-41E9-919B-AE66CCCE1C58 - a5bea4beb36a1faa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VisionFaceTrack.ViewController.landmarksCompletionHandler(request: __C.VNRequest, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "VisionFaceTrack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reshmashrestha/Desktop/CS5323%20Mobile%20Sensing/Chapter%204%20Vision%20Processing/CoreImage&amp;Vision_Lab4/AppleVision-4_vision_full_overlay/VisionFaceTrack/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "384"
+                  endingLineNumber = "384">
+               </Location>
+               <Location
+                  uuid = "A26B0627-E9A6-41E9-919B-AE66CCCE1C58 - a5bea4beb36a1f6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VisionFaceTrack.ViewController.landmarksCompletionHandler(request: __C.VNRequest, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "VisionFaceTrack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reshmashrestha/Desktop/CS5323%20Mobile%20Sensing/Chapter%204%20Vision%20Processing/CoreImage&amp;Vision_Lab4/AppleVision-4_vision_full_overlay/VisionFaceTrack/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "382"
+                  endingLineNumber = "382">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C49C0798-9E70-4BC5-8875-6C4A1EE25040"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VisionFaceTrack/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "C49C0798-9E70-4BC5-8875-6C4A1EE25040 - 7b88e3fa0daa165a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VisionFaceTrack.ViewController.distanceBetween(point1: __C.CGPoint, point2: __C.CGPoint) -&gt; CoreGraphics.CGFloat"
+                  moduleName = "VisionFaceTrack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reshmashrestha/Desktop/CS5323%20Mobile%20Sensing/Chapter%204%20Vision%20Processing/CoreImage&amp;Vision_Lab4/AppleVision-4_vision_full_overlay/VisionFaceTrack/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "348"
+                  endingLineNumber = "348">
+               </Location>
+               <Location
+                  uuid = "C49C0798-9E70-4BC5-8875-6C4A1EE25040 - 7b88e3fa0daa165a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VisionFaceTrack.ViewController.distanceBetween(point1: __C.CGPoint, point2: __C.CGPoint) -&gt; CoreGraphics.CGFloat"
+                  moduleName = "VisionFaceTrack.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/reshmashrestha/Desktop/CS5323%20Mobile%20Sensing/Chapter%204%20Vision%20Processing/CoreImage&amp;Vision_Lab4/AppleVision-4_vision_full_overlay/VisionFaceTrack/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "348"
+                  endingLineNumber = "348">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
