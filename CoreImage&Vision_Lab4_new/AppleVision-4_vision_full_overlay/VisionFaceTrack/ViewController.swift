@@ -426,7 +426,7 @@ class ViewController: UIViewController {
                            // Update smileImageView based on the current expression
                            switch currentExpression {
                            case "Smiling":
-                               self.smileImageView.image = UIImage(named: "smile")
+                               self.smileImageView.image = UIImage(named: "smiling")
                            case "Angry":
                                self.smileImageView.image = UIImage(named: "angry")
                            case "Surprised":
