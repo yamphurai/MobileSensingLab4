@@ -349,8 +349,8 @@ class ViewController: UIViewController {
             }
         }
     }
-
-
+    
+    var isSmiling: Bool = false
     
     //process face landmark detection requests, extract detected landmarks from them, update UI on main thread to draw those landmarks
     func landmarksCompletionHandler(request:VNRequest, error:Error?){
@@ -402,7 +402,8 @@ class ViewController: UIViewController {
                         let smileThreshold: CGFloat = 1.1  // Threshold for smiling based on experimentations
                         
                         // Determine if the face is smiling
-                        if mouthWidth > self.neutralMouthWidth * smileThreshold {
+                        self.isSmiling = mouthWidth > self.neutralMouthWidth * smileThreshold
+                        if self.isSmiling {
                             print("The face is smiling.")
                             print("Width while smiling: \(mouthWidth)")
                             self.smileImageView.isHidden = false  // Make smiling image view visible
@@ -412,9 +413,12 @@ class ViewController: UIViewController {
                         } else {
                             print("The face is Neutral.")
                         }
+                        
+                        //Lab: Draw the landmarks using core animation layers
+                        self.drawFaceObservations(results)
+                        self.updateLandmarkColors(isSmiling: self.isSmiling)
                     }
-                }
-                self.drawFaceObservations(results)  // draw the landmarks using core animation layers (results arry contain detected facial observations)
+                } // draw the landmarks using core animation layers (results arry contain detected facial observations)
             }
         }
     }  //end of completion handler
@@ -713,6 +717,7 @@ extension ViewController {
         
         self.updateLayerGeometry()  //update layer's layout based on current geometry
     }
+
     
     
     //adjust pos & transformation of detection overlay layer based on current device orientation & dims of video preview when displaying face detection results
@@ -840,6 +845,15 @@ extension ViewController {
                 self.addPoints(in: closedLandmarkRegion!, to: faceLandmarksPath, applying: affineTransform, closingWhenComplete: true)
             }
         }
+    }
+    
+    
+    //Lab: Update the color of the detectedFaceLandmarksShapeLayer based on whether the face is smiling
+    fileprivate func updateLandmarkColors(isSmiling: Bool) {
+        
+        // Set color to green if smiling, otherwise set to yellow
+        let color = isSmiling ? UIColor.red.withAlphaComponent(0.7).cgColor : UIColor.yellow.withAlphaComponent(0.7).cgColor
+        self.detectedFaceLandmarksShapeLayer?.strokeColor = color
     }
     
     
