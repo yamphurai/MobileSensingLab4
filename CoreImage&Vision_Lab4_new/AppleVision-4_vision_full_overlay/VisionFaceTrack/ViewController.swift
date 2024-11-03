@@ -374,7 +374,8 @@ class ViewController: UIViewController {
         
         // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
         DispatchQueue.main.async {
-            
+            var currentExpression: String = "Neutral" // Default state
+
             //iterate thru each face observation to access landmarks
             for faceObservation in results {
                 if let landmarks = faceObservation.landmarks{
@@ -398,25 +399,50 @@ class ViewController: UIViewController {
                             self.captureMouthWidth(mouthWidth: mouthWidth)
                         }
                         
-                        // Define smile detection criteria
-                        let smileThreshold: CGFloat = 1.1  // Threshold for smiling based on experimentations
-                        
-                        // Determine if the face is smiling
-                        self.isSmiling = mouthWidth > self.neutralMouthWidth * smileThreshold
-                        if self.isSmiling {
-                            print("The face is smiling.")
-                            print("Width while smiling: \(mouthWidth)")
-                            self.smileImageView.isHidden = false  // Make smiling image view visible
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                self.smileImageView.isHidden = true // Hide the image after 0.05 seconds
-                            }
-                        } else {
-                            print("The face is Neutral.")
-                        }
+                        let smileThreshold: CGFloat = 1.1  // Threshold for smiling based on experimentation
+                        let angryThreshold: CGFloat = 1.4   // Angry threshold (e.g., wider mouth)
+                        let surprisedThreshold: CGFloat = 0.9 // Surprised threshold (e.g., smaller mouth)
+
+                           // Determine if the face is smiling
+                           if mouthWidth > self.neutralMouthWidth * smileThreshold {
+                               print("The face is smiling.")
+                               currentExpression = "Smiling"
+                           }
+                           // Determine if the face is angry
+                           else if mouthWidth > self.neutralMouthWidth * angryThreshold {
+                               print("The face is angry.")
+                               currentExpression = "Angry"
+                           }
+                           // Determine if the face is surprised
+                           else if mouthWidth < self.neutralMouthWidth * surprisedThreshold {
+                               print("The face is surprised.")
+                               currentExpression = "Surprised"
+                           }
+                           else {
+                               print("The face is Neutral.")
+                               currentExpression = "Neutral"
+                           }
+
+                           // Update smileImageView based on the current expression
+                           switch currentExpression {
+                           case "Smiling":
+                               self.smileImageView.image = UIImage(named: "smile")
+                           case "Angry":
+                               self.smileImageView.image = UIImage(named: "angry")
+                           case "Surprised":
+                               self.smileImageView.image = UIImage(named: "surprised")
+                           default:
+                               self.smileImageView.isHidden = true // Hide if neutral
+                           }
+
+                           self.smileImageView.isHidden = false // Show the image view
+                           DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                               self.smileImageView.isHidden = true // Hide the image after 1 second
+                           }
                         
                         //Lab: Draw the landmarks using core animation layers
                         self.drawFaceObservations(results)
-                        self.updateLandmarkColors(isSmiling: self.isSmiling)
+                        self.updateLandmarkColors(currentExpression: currentExpression)
                     }
                 } // draw the landmarks using core animation layers (results arry contain detected facial observations)
             }
@@ -849,12 +875,20 @@ extension ViewController {
     
     
     //Lab: Update the color of the detectedFaceLandmarksShapeLayer based on whether the face is smiling
-    fileprivate func updateLandmarkColors(isSmiling: Bool) {
-        
-        // Set color to green if smiling, otherwise set to yellow
-        let color = isSmiling ? UIColor.red.withAlphaComponent(0.7).cgColor : UIColor.yellow.withAlphaComponent(0.7).cgColor
-        self.detectedFaceLandmarksShapeLayer?.strokeColor = color
+    fileprivate func updateLandmarkColors(currentExpression: String) {
+        // Set the stroke color based on the detected expression
+        switch currentExpression {
+        case "Smiling":
+            self.detectedFaceLandmarksShapeLayer?.strokeColor = UIColor.green.withAlphaComponent(0.7).cgColor
+        case "Angry":
+            self.detectedFaceLandmarksShapeLayer?.strokeColor = UIColor.red.withAlphaComponent(0.7).cgColor
+        case "Surprised":
+            self.detectedFaceLandmarksShapeLayer?.strokeColor = UIColor.blue.withAlphaComponent(0.7).cgColor
+        default:
+            self.detectedFaceLandmarksShapeLayer?.strokeColor = UIColor.yellow.withAlphaComponent(0.7).cgColor // Neutral
+        }
     }
+
     
     
     // render face rectangles & landmarks on the screen
