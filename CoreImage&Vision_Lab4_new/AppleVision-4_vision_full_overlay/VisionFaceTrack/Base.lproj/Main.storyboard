@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,8 +22,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IMo-UY-wfH">
-                                <rect key="frame" x="141" y="664" width="76" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IMo-UY-wfH">
+                                <rect key="frame" x="156" y="694" width="80" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="START"/>
                                 <connections>
@@ -30,33 +31,35 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsO-pc-4tj">
-                                <rect key="frame" x="89" y="709.66666666666663" width="191" height="20.333333333333371"/>
+                                <rect key="frame" x="113" y="737.66666666666663" width="167" height="20.333333333333371"/>
                                 <color key="backgroundColor" red="0.34890581170000001" green="0.73629878569999996" blue="0.78039215689999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="smiling" translatesAutoresizingMaskIntoConstraints="NO" id="Q93-4L-inT">
-                                <rect key="frame" x="253" y="502" width="91" height="197"/>
-                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Expression" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hg2-su-1Xc">
+                                <rect key="frame" x="16" y="664" width="361" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" systemColor="linkColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="lsO-pc-4tj" firstAttribute="top" secondItem="IMo-UY-wfH" secondAttribute="bottom" constant="10.67" id="6Bf-2I-hIc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lsO-pc-4tj" secondAttribute="trailing" constant="113" id="7V4-ZN-vPa"/>
-                            <constraint firstItem="lsO-pc-4tj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="89" id="KEK-oq-tYj"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IMo-UY-wfH" secondAttribute="trailing" constant="176" id="L71-Cj-tK7"/>
-                            <constraint firstItem="Q93-4L-inT" firstAttribute="leading" secondItem="IMo-UY-wfH" secondAttribute="trailing" constant="36" id="ThC-MJ-KrI"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="lsO-pc-4tj" secondAttribute="bottom" constant="88" id="UtC-eC-Hjs"/>
-                            <constraint firstItem="IMo-UY-wfH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="141" id="uv5-Pv-GMP"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q93-4L-inT" secondAttribute="trailing" constant="79" id="wxd-yj-1c5"/>
-                            <constraint firstItem="lsO-pc-4tj" firstAttribute="top" secondItem="Q93-4L-inT" secondAttribute="bottom" constant="10.67" id="y1W-oe-21A"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="lsO-pc-4tj" secondAttribute="bottom" constant="60" id="chf-H6-zos"/>
+                            <constraint firstItem="IMo-UY-wfH" firstAttribute="top" secondItem="hg2-su-1Xc" secondAttribute="bottom" constant="10" id="muM-og-7Nc"/>
+                            <constraint firstItem="lsO-pc-4tj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r8Y-Nx-Lje"/>
+                            <constraint firstItem="hg2-su-1Xc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sFg-aa-YBu"/>
+                            <constraint firstItem="IMo-UY-wfH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z3U-Ze-K1Q"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="expressionLabel" destination="hg2-su-1Xc" id="g9O-Iz-LqZ"/>
                         <outlet property="previewView" destination="mP4-Op-A0V" id="zS5-gc-9O7"/>
-                        <outlet property="smileImageView" destination="Q93-4L-inT" id="dHc-lO-gM3"/>
                         <outlet property="testingLabel" destination="lsO-pc-4tj" id="9aH-cC-ouq"/>
                     </connections>
                 </viewController>
@@ -66,6 +69,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="smiling" width="390" height="389"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

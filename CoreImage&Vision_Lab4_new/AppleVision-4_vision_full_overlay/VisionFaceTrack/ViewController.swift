@@ -68,7 +68,7 @@ class ViewController: UIViewController {
         
         //Lab:
         testingLabel.isHidden = true    //hide the text label until average width is calculated
-        smileImageView.isHidden = true  // Initially hide the similing image view
+        expressionLabel.isHidden = true
     }
     
     
@@ -278,8 +278,14 @@ class ViewController: UIViewController {
     
     //Lab
     var mouthWidths: [CGFloat] = [] // Array to store the captured mouth widths
+    var mouthHeights: [CGFloat] = [] // Array to store the captured mouth heights
+    var eyebrowDistances: [CGFloat] = [] // Array to store the capture eyebrow distances
+    var eyebrowToEyeDistances: [CGFloat] = [] // Array to store the capture eyebrow to eye distances
     var captureCount: Int = 0 // Counter for the number of captures
-    var neutralMouthWidth: CGFloat = 0.2 // Property to store the computed average mouth width
+    var neutralMouthWidth: CGFloat = 0.0 // Property to store the computed average mouth width
+    var neutralEyebrowDistance: CGFloat = 0.0 // Property to store average eyebrow distance
+    var neutralEyebrowToEyeDistance: CGFloat = 0.0 // Property to store average eyebrow to eye distance
+    var neutralMouthHeight: CGFloat = 0.0 // Property to store average mouth height
     var isCapturing: Bool = false // Flag to indicate if capturing is in progress
 
     @IBOutlet weak var countdownLabel: UILabel!
@@ -289,23 +295,36 @@ class ViewController: UIViewController {
     }
 
     @IBOutlet weak var testingLabel: UILabel!         //text label for instruction
-    @IBOutlet weak var smileImageView: UIImageView!   //similing image view
+    @IBOutlet weak var expressionLabel: UILabel!
     
     // Lab: Method to capture mouth widths once the button is pressed
     func startCapturingMouthWidths() {
         mouthWidths.removeAll()      // Reset the array for fresh capture
+        mouthHeights.removeAll()
+        eyebrowDistances.removeAll()
+        eyebrowToEyeDistances.removeAll()
+        
         captureCount = 0             // Reset capture count
         isCapturing = true           // Set capturing flag to true to start capturing
+        
         print("Started capturing mouth widths.")  // Notify that capturing has started
     }
 
     
     //Lab: Method to capture mouth width
-    func captureMouthWidth(mouthWidth: CGFloat) {
+    func captureMouthWidth(mouthWidth: CGFloat, mouthHeight: CGFloat, eyebrowDistance: CGFloat, eyebrowToEyeDistance: CGFloat) {
         guard isCapturing else { return } // Only capture if capturing is in progress
-        mouthWidths.append(mouthWidth)    //add the widths to the array
+        
+        mouthWidths.append(mouthWidth)      //add the widths to the array
+        mouthHeights.append(mouthHeight)    //add height to array
+        eyebrowDistances.append(eyebrowDistance)    //add the eye brow distance to the array
+        eyebrowToEyeDistances.append(eyebrowToEyeDistance) //add eye brow to eye distance to array
+        
         captureCount += 1 // Increment the capture count
         print("Captured mouth width: \(mouthWidth)")
+        print("Captured mouth height: \(mouthHeight)")
+        print("Captured eyebrow distance: \(eyebrowDistance)")
+        print("Captured eyebrow to eye distance: \(eyebrowToEyeDistance)")
         print("Total number of widths: \(mouthWidths.count)")
         
         // If 50 widths have been captured, calculate the average mouth width
@@ -335,8 +354,26 @@ class ViewController: UIViewController {
         print("total number of widths: \(widthsCount)")
         
         let averageWidth = mouthWidths.reduce(0, +) / CGFloat(widthsCount)  //computing the avg width of the mouth
-        neutralMouthWidth = averageWidth     // Set this as the neutral mouth width
+        self.neutralMouthWidth = averageWidth     // Set this as the neutral mouth width
         print("Average Neutral Mouth Width: \(neutralMouthWidth)")
+        
+        // Calculate average mouth height
+        let heightsCount = mouthHeights.count
+        let averageHeight = mouthHeights.reduce(0, +) / CGFloat(heightsCount)
+        self.neutralMouthHeight = averageHeight     // Set this as the neutral mouth width
+        print("Average Neutral Mouth Height: \(neutralMouthHeight)")
+        
+        // Calculate average eyebrow distance
+        let eyebrowDistancesCount = eyebrowDistances.count
+        let averageEyebrowDistance = eyebrowDistances.reduce(0, +) / CGFloat(eyebrowDistancesCount)
+        self.neutralEyebrowDistance = averageEyebrowDistance
+        print("Average Neutral Eyebrow Distance: \(neutralEyebrowDistance)")
+        
+        // Calculate average eyebrow to eye distance
+        let eyebrowToEyeDistancesCount = eyebrowToEyeDistances.count
+        let averageEyebrowToEyeDistance = eyebrowToEyeDistances.reduce(0, +) / CGFloat(eyebrowToEyeDistancesCount)
+        self.neutralEyebrowToEyeDistance = averageEyebrowToEyeDistance
+        print("Average Neutral Eyebrow To Eye Distance: \(averageEyebrowToEyeDistance)")
         
         // Show the label of completion of computing the avg width
         DispatchQueue.main.async {
@@ -346,6 +383,7 @@ class ViewController: UIViewController {
             // Hide the label after 3 seconds
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.testingLabel.isHidden = true
+                self.expressionLabel.isHidden = false
             }
         }
     }
@@ -372,85 +410,95 @@ class ViewController: UIViewController {
         }
          */
         
-        // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
+        // Perform UI updates (drawing) on the main queue.
         DispatchQueue.main.async {
-            var currentExpression: String = "Neutral" // Default state
-
-            //iterate thru each face observation to access landmarks
+            var currentExpression = "Neutral" // Default expression
+            
+            // Iterate through each face observation to access landmarks
             for faceObservation in results {
-                if let landmarks = faceObservation.landmarks{
+                guard let landmarks = faceObservation.landmarks else { continue }
+                
+                // Extract mouth landmarks and calculate mouth width
+                if let mouth = landmarks.outerLips {
+                    let points = Array(UnsafeBufferPointer(start: mouth.__normalizedPoints, count: mouth.pointCount))
+                    let leftCorner = points.first ?? .zero
+                    let rightCorner = points.last ?? .zero
+                    let mouthWidth = self.distanceBetween(point1: leftCorner, point2: rightCorner)
                     
-                    //Lab: Access the mouth landmarks (outer lips)
-                    if let mouth = landmarks.outerLips {
+                    // Calculate mouth height (top to bottom lip distance) for mouth openness
+                    let topLip = points[points.count / 4]
+                    let bottomLip = points[3 * points.count / 4]
+                    let mouthHeight = self.distanceBetween(point1: topLip, point2: bottomLip)
+                                        
+                    // Capture eyebrow and eye distance if available
+                    var eyebrowDistance: CGFloat = 0.0
+                    var eyebrowToEyeDistance: CGFloat = 0.0 // Moved here for proper scoping
+                    
+                    if let leftEyebrow = landmarks.leftEyebrow, let rightEyebrow = landmarks.rightEyebrow {
+                        // Calculate the distance between the inner corners of the eyebrows
+                        let leftBrowInner = leftEyebrow.normalizedPoints.last ?? .zero
+                        let rightBrowInner = rightEyebrow.normalizedPoints.first ?? .zero
+                        eyebrowDistance = self.distanceBetween(point1: leftBrowInner, point2: rightBrowInner)
                         
-                        //extract normalized pts of mouth & conver to array representing key coordinates of mouth
-                        let points = Array(UnsafeBufferPointer(start: mouth.__normalizedPoints, count: mouth.pointCount))
-                        
-                        // Get the left and right corners of the mouth
-                        let leftCorner = points.first ?? CGPoint.zero    // the first point is the left corner in the above array
-                        let rightCorner = points.last ?? CGPoint.zero    // the last point is the right corner in the above array
-                        
-                        // Calculate mouth width (distance between left and right corners of the mouth)
-                        let mouthWidth = self.distanceBetween(point1: leftCorner, point2: rightCorner)
-                        
-                        
-                        // Check if capturing should start and compute the avg only when "isCapturing" is true (button is pressed)
-                        if self.isCapturing {
-                            self.captureMouthWidth(mouthWidth: mouthWidth)
+                        // Calculate eyebrow to eye distance if eye landmarks are available
+                        if let leftEye = landmarks.leftEye, let rightEye = landmarks.rightEye {
+                            let leftEyeCorner = leftEye.normalizedPoints.first ?? .zero
+                            let rightEyeCorner = rightEye.normalizedPoints.last ?? .zero
+                            eyebrowToEyeDistance = (self.distanceBetween(point1: leftBrowInner, point2: leftEyeCorner) +
+                                                    self.distanceBetween(point1: rightBrowInner, point2: rightEyeCorner)) / 2
                         }
-                        
-                        let smileThreshold: CGFloat = 1.1  // Threshold for smiling based on experimentation
-                        let angryThreshold: CGFloat = 1.4   // Angry threshold (e.g., wider mouth)
-                        let surprisedThreshold: CGFloat = 0.9 // Surprised threshold (e.g., smaller mouth)
-
-                           // Determine if the face is smiling
-                           if mouthWidth > self.neutralMouthWidth * smileThreshold {
-                               print("The face is smiling.")
-                               currentExpression = "Smiling"
-                           }
-                           // Determine if the face is angry
-                           else if mouthWidth > self.neutralMouthWidth * angryThreshold {
-                               print("The face is angry.")
-                               currentExpression = "Angry"
-                           }
-                           // Determine if the face is surprised
-                           else if mouthWidth < self.neutralMouthWidth * surprisedThreshold {
-                               print("The face is surprised.")
-                               currentExpression = "Surprised"
-                           }
-                           else {
-                               print("The face is Neutral.")
-                               currentExpression = "Neutral"
-                           }
-
-                           // Update smileImageView based on the current expression
-                           switch currentExpression {
-                           case "Smiling":
-                               self.smileImageView.image = UIImage(named: "smile")
-                           case "Angry":
-                               self.smileImageView.image = UIImage(named: "angry")
-                           case "Surprised":
-                               self.smileImageView.image = UIImage(named: "surprised")
-                           default:
-                               self.smileImageView.isHidden = true // Hide if neutral
-                           }
-
-                           self.smileImageView.isHidden = false // Show the image view
-                           DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                               self.smileImageView.isHidden = true // Hide the image after 1 second
-                           }
-                        
-                        //Lab: Draw the landmarks using core animation layers
-                        self.drawFaceObservations(results)
-                        self.updateLandmarkColors(currentExpression: currentExpression)
                     }
-                } // draw the landmarks using core animation layers (results arry contain detected facial observations)
+                    
+                    // Start capturing values if flag is set
+                    if self.isCapturing {
+                        self.captureMouthWidth(mouthWidth: mouthWidth, mouthHeight: mouthHeight, eyebrowDistance: eyebrowDistance, eyebrowToEyeDistance: eyebrowToEyeDistance)
+                    }
+                    
+                    // Expression thresholds
+                    let smileThreshold: CGFloat = 1.1
+                    let surprisedEyebrowThreshold: CGFloat = 1.1   // higher eyebrow for surprise
+                    
+                    // Determine expression based on mouth width and eyebrow proximity
+                    // Angry is determined by a frown and pursed lips (less height) and closer eyebrows
+                    if mouthHeight <= self.neutralMouthHeight && eyebrowDistance < self.neutralEyebrowDistance {
+                        currentExpression = "Angry"
+                    // Surprise is detemined by an open mouth (increased height) and raised eyebrows
+                    } else if mouthHeight > self.neutralMouthHeight && eyebrowToEyeDistance > self.neutralEyebrowToEyeDistance * surprisedEyebrowThreshold {
+                        currentExpression = "Surprised"
+                    // Smiling is determined by wider mouth
+                    } else if mouthWidth > self.neutralMouthWidth * smileThreshold {
+                        currentExpression = "Smiling"
+                    } else {
+                        currentExpression = "Neutral"
+                    }
+                    
+                    // Update expression display and UI
+                    self.displayExpression(expression: currentExpression)
+                    self.drawFaceObservations(results)
+                    self.updateLandmarkColors(currentExpression: currentExpression)
+                }
             }
         }
     }  //end of completion handler
     
+    //display expression on UI
+    func displayExpression(expression: String) {
+        switch expression {
+            case "Smiling":
+                self.expressionLabel.text = "Smiling - 😀"
+                self.expressionLabel.textColor = UIColor.green.withAlphaComponent(0.7)
+            case "Angry":
+                self.expressionLabel.text = "Angry - 😠"
+                self.expressionLabel.textColor = UIColor.red.withAlphaComponent(0.7)
+            case "Surprised":
+                self.expressionLabel.text = "Surpised - 😲"
+                self.expressionLabel.textColor = UIColor.blue.withAlphaComponent(0.7)
+            default:
+                self.expressionLabel.text = "Neutral - 😐"
+                self.expressionLabel.textColor = UIColor.yellow.withAlphaComponent(0.7)
+        }
+    }
 }
-
 
 // MARK: Helper Methods
 extension UIViewController{
